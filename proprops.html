@@ -20,6 +20,7 @@
             page: 'main', 
             serverAddress: localStorage.getItem('serverAddress') || '10.1.1.118:1025', 
             defaultServerAddress: '10.1.1.118:1025', 
+            serverAddresses: JSON.parse(localStorage.getItem('serverAddresses')) || [],
 
             fetchData() {
                 fetch(`http://${this.serverAddress}/v1/props`)
@@ -36,13 +37,20 @@
             },
 
             saveAddress() {
+                // Add the address to the top of the list, remove duplicates, and limit to the last 5
+                this.serverAddresses = [...new Set([this.serverAddress, ...this.serverAddresses])].slice(0, 5);
                 localStorage.setItem('serverAddress', this.serverAddress);
+                localStorage.setItem('serverAddresses', JSON.stringify(this.serverAddresses));
                 this.page = 'main';
             },
 
             resetAddress() {
                 this.serverAddress = this.defaultServerAddress;
                 localStorage.setItem('serverAddress', this.defaultServerAddress);
+            },
+
+            selectAddress(address) {
+                this.serverAddress = address;
             }
         }" 
         x-init="fetchData" 
@@ -78,6 +86,13 @@
                 <input type="text" name="server-address" x-model="serverAddress" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
                 <button class="mt-3 mr-2 px-3 py-1 rounded bg-blue-500 text-white" @click="resetAddress">Reset</button>
                 <button class="mt-3 px-3 py-1 rounded bg-blue-500 text-white" @click="saveAddress">Ok</button>
+
+                <div class="mt-3">
+                    <label class="block text-sm font-medium text-gray-700">Recent addresses</label>
+                    <template x-for="(address, index) in serverAddresses" :key="index">
+                        <button class="mt-1 block w-full text-left" @click="selectAddress(address)" x-text="address"></button>
+                    </template>
+                </div>
             </div>
         </template>
 
