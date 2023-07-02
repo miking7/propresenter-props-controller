@@ -9,7 +9,7 @@
     <!-- Include Alpine JS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <!-- Web Page Icon -->
-    <link rel="icon" type="image/png" href="ProPresenter-LogoIcon-01.png" />
+    <link rel="icon" type="image/png" href="https://renewedvision.com/wp-content/uploads/2020/11/ProPresenter-LogoIcon-01.png" />
 </head>
 <body class="p-5 bg-gray-100">
     <div x-data="{ 
@@ -83,6 +83,10 @@
                 window.dispatchEvent(new Event('fetch-data'));
             }, 2000);
         </script>
+
+        <footer class="fixed bottom-0 left-0 w-full py-2 text-xs text-gray-400 bg-gray-100 text-center">
+            <span x-text="'Server Address: ' + serverAddress"></span>
+        </footer>
     </div>
 </body>
 </html>
